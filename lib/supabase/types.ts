@@ -57,6 +57,7 @@ type EventRow = {
   is_online: boolean
   is_offline: boolean
   region_limit: string | null
+  image_url: string | null
   source_url: string | null
   source_type: SourceType
   is_verified: boolean
@@ -138,6 +139,7 @@ type EventInsert = {
   is_online?: boolean
   is_offline?: boolean
   region_limit?: string | null
+  image_url?: string | null
   source_url?: string | null
   source_type?: SourceType
   is_verified?: boolean
@@ -208,6 +210,7 @@ type EventUpdate = {
   is_online?: boolean
   is_offline?: boolean
   region_limit?: string | null
+  image_url?: string | null
   source_url?: string | null
   source_type?: SourceType
   is_verified?: boolean

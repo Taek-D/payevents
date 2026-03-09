@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { CrawlSuggestions } from "@/components/admin/CrawlSuggestions"
 
 export const revalidate = 0
 
@@ -95,6 +96,9 @@ export default async function AdminDashboardPage() {
           </p>
         )}
       </div>
+
+      {/* 커뮤니티 이벤트 후보 */}
+      <CrawlSuggestions />
 
       {/* 바로가기 버튼 */}
       <div className="flex gap-3">

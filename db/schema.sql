@@ -96,6 +96,7 @@ create table if not exists events (
   is_online           boolean not null default true,
   is_offline          boolean not null default false,
   region_limit        text,
+  image_url           text,
   source_url          text,
   source_type         source_type not null default 'official',
   is_verified         boolean not null default false,

@@ -92,5 +92,37 @@ export default async function EventDetailPage({
     notFound()
   }
 
-  return <EventDetail event={event} />
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    description: event.summary ?? event.benefit_text,
+    startDate: event.start_date,
+    endDate: event.end_date,
+    eventAttendanceMode: event.is_online
+      ? "https://schema.org/OnlineEventAttendanceMode"
+      : "https://schema.org/OfflineEventAttendanceMode",
+    organizer: {
+      "@type": "Organization",
+      name: event.payment_provider?.name_ko ?? "PayEvents",
+    },
+    offers: {
+      "@type": "Offer",
+      url: `${baseUrl}/events/${event.slug}`,
+      availability: "https://schema.org/InStock",
+    },
+    ...(event.image_url ? { image: event.image_url } : {}),
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <EventDetail event={event} />
+    </>
+  )
 }

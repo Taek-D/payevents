@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
     condition_text: parsed.data.condition_text ?? null,
     max_benefit_value: parsed.data.max_benefit_value ?? null,
     region_limit: parsed.data.region_limit ?? null,
+    image_url: parsed.data.image_url ?? null,
     source_url: parsed.data.source_url ?? null,
     published_at: parsed.data.status === "published" ? new Date().toISOString() : null,
   }

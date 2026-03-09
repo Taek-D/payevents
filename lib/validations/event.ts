@@ -15,6 +15,7 @@ export const eventCreateSchema = z.object({
   is_online: z.boolean().default(true),
   is_offline: z.boolean().default(false),
   region_limit: z.string().optional(),
+  image_url: z.string().url("유효한 이미지 URL이 필요합니다").optional(),
   source_url: z.string().url("유효한 URL이 필요합니다").optional(),
   source_type: z.enum(["official", "community", "submission", "crawled"]).default("official"),
   is_verified: z.boolean().default(false),

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { PROVIDERS } from "@/lib/constants/providers"
+import { PublishButton } from "@/components/admin/PublishButton"
 
 export const revalidate = 0
 
@@ -66,7 +67,15 @@ export default async function EventsManagementPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-gray-900">이벤트 관리</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-gray-900">이벤트 관리</h1>
+        <Link
+          href="/admin/events/create"
+          className="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+        >
+          이벤트 등록
+        </Link>
+      </div>
 
       {/* 상태 탭 */}
       <div className="flex gap-1 border-b border-gray-200">
@@ -127,14 +136,20 @@ export default async function EventsManagementPage({
                   <span className="text-xs text-gray-500 hidden sm:block">
                     {formatDate(event.start_date)} ~ {formatDate(event.end_date)}
                   </span>
-                  <Link
-                    href={`/events/${event.slug}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-500 hover:underline"
-                  >
-                    보기
-                  </Link>
+                  {event.status === "published" ? (
+                    <Link
+                      href={`/events/${event.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-500 hover:underline"
+                    >
+                      보기
+                    </Link>
+                  ) : event.status === "draft" ? (
+                    <PublishButton eventId={event.id} />
+                  ) : (
+                    <span className="text-xs text-gray-300">보관됨</span>
+                  )}
                 </div>
               </div>
             )

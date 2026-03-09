@@ -38,6 +38,6 @@ export function getEndingUrgencyLevel(endDate: string): UrgencyLevel {
   const days = getDaysUntilEnd(endDate)
   if (days < 0) return "expired"
   if (days <= 1) return "critical"
-  if (days <= 3) return "warning"
+  if (days <= 7) return "warning"
   return "normal"
 }

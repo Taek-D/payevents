@@ -16,6 +16,23 @@ import { formatKRW } from "@/lib/utils/money"
 import { PROVIDER_BADGE_COLORS } from "@/lib/constants/providers"
 import type { EventWithRelations } from "@/lib/types/event"
 
+const PROXY_DOMAINS = [
+  "ruliweb.com",
+  "ppomppu.co.kr",
+  "fmkorea.com",
+  "clien.net",
+]
+
+function proxyImageUrl(url: string): string {
+  try {
+    const hostname = new URL(url).hostname
+    if (PROXY_DOMAINS.some((d) => hostname.endsWith(d))) {
+      return `/api/image-proxy?url=${encodeURIComponent(url)}`
+    }
+  } catch { /* 무효 URL은 그대로 반환 */ }
+  return url
+}
+
 function getRemainingText(endDate: string): string {
   const days = getDaysUntilEnd(endDate)
   if (days < 0) return "종료됨"
@@ -75,6 +92,18 @@ export function EventDetail({ event }: EventDetailProps) {
         )}
       </div>
 
+      {/* Image */}
+      {event.image_url && (
+        <div className="mb-6 overflow-hidden rounded-xl border">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={proxyImageUrl(event.image_url)}
+            alt={event.title}
+            className="w-full object-contain"
+          />
+        </div>
+      )}
+
       {/* Summary */}
       {event.summary && (
         <p className="mb-6 leading-relaxed text-muted-foreground">
@@ -126,7 +155,7 @@ export function EventDetail({ event }: EventDetailProps) {
           <h2 className="text-lg font-semibold">기간</h2>
         </div>
         <div className="rounded-xl bg-muted/50 px-5 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-medium">
               {formatDateRange(event.start_date, event.end_date)}
             </span>
