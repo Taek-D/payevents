@@ -21,7 +21,19 @@ export function EventCard({ event, variant = "default" }: EventCardProps) {
 
   return (
     <Link href={`/events/${event.slug}`} className="block">
-      <Card className={`transition-shadow hover:shadow-md ${expired ? "opacity-50 grayscale" : ""}`}>
+      <Card className={`overflow-hidden transition-shadow hover:shadow-md ${expired ? "opacity-50 grayscale" : ""}`}>
+        {variant !== "compact" && event.image_url && (
+          <div className="aspect-[2/1] w-full overflow-hidden">
+            <img
+              src={event.image_url}
+              alt={event.title}
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.parentElement?.classList.add("hidden")
+              }}
+            />
+          </div>
+        )}
         <CardContent className={variant === "compact" ? "p-3" : "p-4"}>
           <div className="flex items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-1.5">

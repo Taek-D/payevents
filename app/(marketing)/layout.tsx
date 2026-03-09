@@ -1,6 +1,31 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+const SITE_URL = "https://payevents.vercel.app"
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "PayEvents",
+  url: SITE_URL,
+  description: "네이버페이, 토스페이, 카카오페이, 페이코 간편결제 할인 이벤트를 한곳에서 확인",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/events?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+}
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PayEvents",
+  url: SITE_URL,
+}
+
 export default function MarketingLayout({
   children,
 }: {
@@ -8,6 +33,14 @@ export default function MarketingLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
           <Link href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500">

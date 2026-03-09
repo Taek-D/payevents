@@ -6,7 +6,7 @@ import { EndingSoonSection } from "@/components/EndingSoonSection"
 import { PopularSection } from "@/components/PopularSection"
 import { NewsletterBanner } from "@/components/NewsletterBanner"
 
-export const revalidate = 3600
+export const revalidate = 600
 
 export const metadata: Metadata = {
   title: "PayEvents — 오늘 뭐 쓰면 이득일까?",
