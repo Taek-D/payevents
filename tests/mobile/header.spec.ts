@@ -23,7 +23,7 @@ test.describe("MOBILE-01 — Hamburger drawer (375px)", () => {
     const dialog = page.getByRole("dialog")
     await expect(dialog).toBeVisible()
     for (const link of NAV_LINKS) {
-      await expect(dialog.getByRole("link", { name: link.label })).toBeVisible()
+      await expect(dialog.getByRole("link", { name: link.label, exact: true })).toBeVisible()
     }
   })
 
@@ -33,7 +33,7 @@ test.describe("MOBILE-01 — Hamburger drawer (375px)", () => {
       await page.getByRole("button", { name: /메뉴/ }).click()
       const dialog = page.getByRole("dialog")
       await expect(dialog).toBeVisible()
-      await dialog.getByRole("link", { name: link.label }).click()
+      await dialog.getByRole("link", { name: link.label, exact: true }).click()
       await expect(page).toHaveURL(new RegExp(`${link.href}$`))
     }
   })
@@ -43,7 +43,7 @@ test.describe("MOBILE-01 — Hamburger drawer (375px)", () => {
     await page.getByRole("button", { name: /메뉴/ }).click()
     const dialog = page.getByRole("dialog")
     await expect(dialog).toBeVisible()
-    await dialog.getByRole("link", { name: "이벤트" }).click()
+    await dialog.getByRole("link", { name: "이벤트", exact: true }).click()
     await expect(page.getByRole("dialog")).toBeHidden()
   })
 
