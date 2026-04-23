@@ -101,6 +101,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ data, message: "이벤트가 생성되었습니다" }, { status: 201 })
 }
 
+// DEPRECATED: use PATCH /api/admin/events/[id] instead. Kept for backward compatibility.
 export async function PUT(request: NextRequest) {
   if (!verifyAdmin(request)) {
     return NextResponse.json({ error: "Unauthorized", status: 401 }, { status: 401 })

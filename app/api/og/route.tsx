@@ -3,6 +3,12 @@ import { NextRequest } from "next/server"
 
 export const runtime = "edge"
 
+const notoSansKRPromise = fetch(
+  new URL(
+    "https://fonts.gstatic.com/s/notosanskr/v36/PbykFmXiEBPT4ITbgNA5Cgm203Tq4JJWq209pU0DPdWuqxJco4.0.woff2"
+  )
+).then((res) => res.arrayBuffer())
+
 const PROVIDER_COLORS: Record<string, { bg: string; text: string }> = {
   NAVERPAY: { bg: "#03C75A", text: "#FFFFFF" },
   TOSSPAY: { bg: "#0064FF", text: "#FFFFFF" },
@@ -24,6 +30,13 @@ export async function GET(request: NextRequest) {
 
   const colors = PROVIDER_COLORS[provider] ?? { bg: "#1a1a2e", text: "#FFFFFF" }
   const providerName = PROVIDER_NAMES[provider] ?? ""
+
+  let fontData: ArrayBuffer | undefined
+  try {
+    fontData = await notoSansKRPromise
+  } catch {
+    // 폰트 로딩 실패 시 기본 sans-serif로 fallback
+  }
 
   return new ImageResponse(
     (
@@ -51,6 +64,7 @@ export async function GET(request: NextRequest) {
               color: colors.text,
               fontSize: "28px",
               fontWeight: 600,
+              fontFamily: "'Noto Sans KR', sans-serif",
             }}
           >
             {providerName}
@@ -66,6 +80,7 @@ export async function GET(request: NextRequest) {
             lineHeight: 1.3,
             maxWidth: "900px",
             wordBreak: "keep-all",
+            fontFamily: "'Noto Sans KR', sans-serif",
           }}
         >
           {title}
@@ -78,6 +93,7 @@ export async function GET(request: NextRequest) {
             opacity: 0.8,
             fontSize: "24px",
             fontWeight: 500,
+            fontFamily: "'Noto Sans KR', sans-serif",
           }}
         >
           PayEvents — 간편결제 이벤트 허브
@@ -87,6 +103,9 @@ export async function GET(request: NextRequest) {
     {
       width: 1200,
       height: 630,
+      fonts: fontData
+        ? [{ name: "Noto Sans KR", data: fontData, weight: 700, style: "normal" as const }]
+        : undefined,
     }
   )
 }

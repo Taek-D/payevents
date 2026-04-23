@@ -50,3 +50,23 @@ export async function resolveBrand(
 
   return created as ResolvedBrand
 }
+
+/**
+ * Lookup-only 브랜드 조회. 존재하지 않으면 null을 반환하며, 결코 INSERT 하지 않는다.
+ * scrape 라우트는 자동으로 새 브랜드를 만들지 않아야 하므로 (D-10) 이 함수만 사용한다.
+ * 이벤트 실제 저장 시점(events POST)에서는 기존 resolveBrand를 써서 필요시 생성한다.
+ */
+export async function findBrandByNormalizedName(
+  brandName: string,
+  supabase: SupabaseClient,
+): Promise<ResolvedBrand | null> {
+  const trimmed = brandName.trim()
+  if (!trimmed) return null
+  const normalized = normalizeName(trimmed)
+  const { data } = await supabase
+    .from("brands")
+    .select("id, slug, name_ko")
+    .eq("normalized_name", normalized)
+    .maybeSingle()
+  return (data as ResolvedBrand | null) ?? null
+}

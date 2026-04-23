@@ -112,6 +112,8 @@ export default async function EventDetailPage({
       "@type": "Offer",
       url: `${baseUrl}/events/${event.slug}`,
       availability: "https://schema.org/InStock",
+      priceCurrency: "KRW",
+      price: "0",
     },
     ...(event.image_url ? { image: event.image_url } : {}),
   }
@@ -120,7 +122,9 @@ export default async function EventDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
       />
       <EventDetail event={event} />
     </>

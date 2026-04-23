@@ -39,6 +39,9 @@ yarn-error.log*
 # omc state
 .omc/
 
+# Stray GSD planning dir (real artifacts live in project root .planning/)
+/.planning/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next"
 import { createClient } from "@/lib/supabase/server"
+import { CATEGORIES } from "@/lib/constants/categories"
+import { PROVIDERS } from "@/lib/constants/providers"
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
 
@@ -16,6 +18,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(event.updated_at),
     changeFrequency: "daily",
     priority: 0.8,
+  }))
+
+  const categoryEntries: MetadataRoute.Sitemap = CATEGORIES.map((cat) => ({
+    url: `${baseUrl}/events?category=${cat.value}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }))
+
+  const providerEntries: MetadataRoute.Sitemap = PROVIDERS.map((provider) => ({
+    url: `${baseUrl}/events?provider=${provider.value}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
   }))
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -63,5 +79,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return [...staticRoutes, ...eventEntries]
+  return [...staticRoutes, ...categoryEntries, ...providerEntries, ...eventEntries]
 }

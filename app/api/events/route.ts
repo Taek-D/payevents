@@ -25,17 +25,13 @@ export async function GET(request: NextRequest) {
   const today = new Date().toISOString().split("T")[0]
   const offset = (page - 1) * limit
 
-  // Expired 이벤트 자동 아카이브: end_date < today인 published 이벤트를 archived로 변경
-  await supabase
-    .from("events")
-    .update({ status: "archived" as const })
-    .eq("status", "published" as const)
-    .lt("end_date", today)
-
+  // ADMIN-03: GET 핸들러는 read-only. 만료된 이벤트는 .gte 필터로 응답에서 제외하고,
+  // status 동기화는 /api/cron/archive-expired (vercel.json daily cron)에 위임한다.
   let query = supabase
     .from("events")
     .select(EVENT_SELECT, { count: "exact" })
     .eq("status", "published" as const)
+    .gte("end_date", today)
 
   // ending_soon=true 필터: D-3 이내 이벤트만
   if (endingSoon === "true") {

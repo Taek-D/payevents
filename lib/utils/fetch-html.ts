@@ -1,10 +1,16 @@
+export type FetchHtmlOptions = {
+  headers?: Record<string, string>
+  timeoutMs?: number  // default 10_000 — crawl 라우트 호환 유지
+}
+
 /**
  * HTML을 가져오면서 인코딩(EUC-KR 등)을 자동 감지하여 올바르게 디코딩합니다.
  */
 export async function fetchHtml(
   url: string,
-  extraHeaders?: Record<string, string>,
+  opts: FetchHtmlOptions = {},
 ): Promise<string> {
+  const { headers: extraHeaders, timeoutMs = 10_000 } = opts
   const origin = new URL(url).origin
   const res = await fetch(url, {
     headers: {
@@ -21,7 +27,7 @@ export async function fetchHtml(
       ...extraHeaders,
     },
     redirect: "follow",
-    signal: AbortSignal.timeout(10000),
+    signal: AbortSignal.timeout(timeoutMs),
   })
 
   if (!res.ok) {

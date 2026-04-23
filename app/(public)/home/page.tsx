@@ -9,9 +9,16 @@ import { NewsletterBanner } from "@/components/NewsletterBanner"
 export const revalidate = 600
 
 export const metadata: Metadata = {
-  title: "PayEvents — 오늘 뭐 쓰면 이득일까?",
+  title: { absolute: "PayEvents — 오늘 뭐 쓰면 이득일까?" },
   description:
     "네이버페이·토스페이·카카오페이·페이코 간편결제 할인 이벤트를 한곳에서 확인하세요.",
+  openGraph: {
+    title: "PayEvents — 오늘 뭐 쓰면 이득일까?",
+    description:
+      "네이버페이·토스페이·카카오페이·페이코 간편결제 할인 이벤트를 한곳에서 확인하세요.",
+    type: "website",
+    images: [{ url: "/api/og?title=PayEvents", width: 1200, height: 630 }],
+  },
 }
 
 const EVENT_SELECT = `
