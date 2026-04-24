@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { EventSearchBar } from "@/components/EventSearchBar"
-import { EventFilters } from "@/components/EventFilters"
+import { EventFiltersWrapper } from "@/components/EventFiltersWrapper"
 import { EventList } from "@/components/EventList"
 import type { EventWithRelations, EventFiltersState } from "@/lib/types/event"
 
@@ -104,7 +104,7 @@ export function EventsContainer() {
   return (
     <div className="space-y-6">
       <EventSearchBar onSearch={handleSearch} initialValue={filters.q} />
-      <EventFilters currentFilters={filters} onFilterChange={updateFilters} />
+      <EventFiltersWrapper currentFilters={filters} onFilterChange={updateFilters} />
       <EventList
         events={events}
         isLoading={isLoading}
