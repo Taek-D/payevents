@@ -12,7 +12,7 @@ import { PROVIDERS } from "@/lib/constants/providers"
 import { CATEGORIES } from "@/lib/constants/categories"
 import type { EventFiltersState } from "@/lib/types/event"
 
-type EventFiltersProps = {
+export type EventFiltersProps = {
   currentFilters: EventFiltersState
   onFilterChange: (filters: Partial<EventFiltersState>) => void
 }
